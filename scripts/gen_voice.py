@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Generate every spoken prompt with Gemini TTS into assets/audio/voice/*.wav.
+"""Generate every spoken prompt with Gemini TTS into art/voice/*.wav (masters).
 
-Skips files that already exist. The line ids are referenced from
-lib/core/audio/voice_lines.dart, so keep the two in sync.
+Then run scripts/encode_voice.py to make the MP3s the app ships. Skips files
+that already exist. Line ids are passed to SoundPlayer.say() across lib/, so
+keep them in sync.
 
   python3 scripts/gen_voice.py [id ...]
 """
@@ -12,7 +13,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 import gemini  # noqa: E402
 
-OUT = gemini.ROOT / "assets" / "audio" / "voice"
+OUT = gemini.ROOT / "art" / "voice"
 
 PIP = "Leda"      # youthful, bright
 OLLIE = "Achird"  # friendly, gentle

@@ -38,6 +38,9 @@ class _WarmupViewState extends ListeningState<WarmupView> {
   bool _voiced = false;
   final _noise = <double>[];
   final _got = <double>[];
+
+  /// Every unmuted frame's level while listening, for a robust noise floor.
+  final _allRms = <double>[];
   double? _noiseRms, _loudRms, _quietRms, _lowHz, _highHz;
 
   static const _need = 25; // ~0.8 s of sound
@@ -69,6 +72,7 @@ class _WarmupViewState extends ListeningState<WarmupView> {
     if (f.pitched) _pitch = smoothTo(_pitch, f.pitchNorm, 6, dt);
     if (_listening) {
       _t += dt;
+      if (f.rms > 0) _allRms.add(f.rms);
       switch (_phase) {
         case _Phase.noise:
           if (f.rms > 0) _noise.add(f.rms);
@@ -151,8 +155,12 @@ class _WarmupViewState extends ListeningState<WarmupView> {
 
   Future<void> _finish() async {
     final p = profile;
-    var noise = _noiseRms;
-    if (noise != null && _quietRms != null) noise = math.min(noise, _quietRms! / 3);
+    final noise = warmupNoiseFloor(
+      firstWindow: _noiseRms,
+      allLevels: _allRms,
+      loud: _loudRms,
+      quiet: _quietRms,
+    );
     p.calibration = p.calibration.withMeasured(noise: noise, loud: _loudRms, low: _lowHz, high: _highHz);
     p.warmedUp = true;
     await services.store.save();
@@ -223,4 +231,26 @@ class _WarmupViewState extends ListeningState<WarmupView> {
       ),
     );
   }
+}
+
+/// Room noise estimate from the warm-up that can't be fooled into deafness.
+///
+/// A child who starts talking over Pip's hello, or a TV in the background,
+/// would make the first-second reading far too high, and everything quieter
+/// would then be ignored. So take the quietest moments of the whole warm-up
+/// (10th percentile), keep noise well below the child's own loud and quiet
+/// sounds, and cap it absolutely.
+@visibleForTesting
+double? warmupNoiseFloor({double? firstWindow, List<double> allLevels = const [], double? loud, double? quiet}) {
+  final candidates = <double>[];
+  if (firstWindow != null) candidates.add(firstWindow);
+  if (allLevels.length >= 20) {
+    final s = [...allLevels]..sort();
+    candidates.add(s[(s.length * 0.1).floor()]);
+  }
+  if (candidates.isEmpty) return null;
+  var n = candidates.reduce(math.min);
+  if (loud != null) n = math.min(n, loud / 8);
+  if (quiet != null) n = math.min(n, quiet / 3);
+  return n.clamp(0.0005, 0.012);
 }

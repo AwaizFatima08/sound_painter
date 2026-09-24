@@ -80,7 +80,8 @@ void main() {
     // 1. Pip's warm-up runs to the end with the synthetic voice.
     debugPrint('STEP 1');
     script = [
-      SynthInput.demoScript()[1], // glide
+      SynthInput.demoScript()[1], // glide, already singing as the warm-up starts
+      SynthInput.demoScript()[0], // a breath
       SynthInput.demoScript()[3], // loud aaa
     ];
     await wait(t, 12);
@@ -92,6 +93,7 @@ void main() {
     }
     expect(home, findsOneWidget, reason: 'warm-up should finish on its own');
     expect(store.active!.warmedUp, isTrue);
+    debugPrint('calibration: ${store.active!.calibration.toJson()}');
     await wait(t, 3);
     await shot(t, '02_home');
 
@@ -114,6 +116,7 @@ void main() {
     await tapWhenReady(t, button('apple, the a sound'));
     await wait(t, 14);
     await shot(t, '05_safari_colouring');
+    debugPrint('safari: speaking=${sound.speaking.value} voice=${store.active!.vowels[Vowel.a]!.practiceSeconds.toStringAsFixed(1)}s');
     final again = button('Colour it again');
     final safariEnd = DateTime.now().add(const Duration(seconds: 60));
     while (again.evaluate().isEmpty && DateTime.now().isBefore(safariEnd)) {

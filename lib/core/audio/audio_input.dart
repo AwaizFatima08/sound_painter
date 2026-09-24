@@ -42,7 +42,11 @@ class MicInput implements AudioInput {
       echoCancel: true,
       autoGain: false,
       noiseSuppress: false,
-      androidConfig: AndroidRecordConfig(audioSource: AndroidAudioSource.voiceRecognition),
+      androidConfig: AndroidRecordConfig(
+        audioSource: AndroidAudioSource.voiceRecognition,
+        // Bluetooth SCO needs BLUETOOTH_CONNECT, which we don't ask for.
+        manageBluetooth: false,
+      ),
     ));
     return bytes.map(pcm16ToFloat);
   }

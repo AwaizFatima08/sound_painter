@@ -4,6 +4,8 @@
     <!-- Voice painting. Audio is analysed in memory and never recorded or sent
          (the release app has no INTERNET permission at all). -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- Pulled in by a media plugin; the app never uses the network. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
     <uses-feature android:name="android.hardware.screen.landscape" android:required="false" />
 

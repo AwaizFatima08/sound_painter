@@ -38,7 +38,7 @@ class _SafariLevelViewState extends ListeningState<SafariLevelView> {
   int _modelRepeats = 0;
   bool _saidHalf = false, _saidAlmost = false;
   double _celebrate = 0;
-  late final List<_Spot> _spots = _makeSpots();
+  List<_Spot> _spots = const [];
 
   Vowel get v => widget.vowel;
   bool get practise => profile.level == PlayLevel.practise;
@@ -53,27 +53,36 @@ class _SafariLevelViewState extends ListeningState<SafariLevelView> {
     final data = await rootBundle.load('assets/images/obj_${v.word}.webp');
     final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
     final frame = await codec.getNextFrame();
-    if (mounted) setState(() => _color = frame.image);
+    final spots = await _spotsFor(frame.image);
+    if (mounted) {
+      setState(() {
+        _color = frame.image;
+        _spots = spots;
+      });
+    }
   }
 
-  static List<_Spot> _makeSpots() {
-    // Spiral from the centre outward, jittered, so colour blooms from the
-    // middle like paint spreading.
-    final r = math.Random(11);
-    const n = 90;
-    return [
-      for (var i = 0; i < n; i++)
-        () {
-          final t = i / n;
-          final ang = i * 2.399963; // golden angle
-          final rad = 0.66 * math.sqrt(t);
-          return _Spot(
-            Offset(0.5 + rad * math.cos(ang) + (r.nextDouble() - 0.5) * 0.06,
-                0.5 + rad * math.sin(ang) + (r.nextDouble() - 0.5) * 0.06),
-            0.085 + r.nextDouble() * 0.035,
-          );
-        }(),
-    ];
+  /// Reveal dabs cover only the picture's painted pixels (not its
+  /// transparent surround), ordered from the centre outward with a little
+  /// jitter, so the visible colouring matches the progress ring.
+  static Future<List<_Spot>> _spotsFor(ui.Image img) async {
+    final data = await img.toByteData(format: ui.ImageByteFormat.rawRgba);
+    if (data == null) return const [];
+    const grid = 16;
+    final w = img.width, h = img.height;
+    final rand = math.Random(11);
+    final cells = <(_Spot, double)>[];
+    for (var gy = 0; gy < grid; gy++) {
+      for (var gx = 0; gx < grid; gx++) {
+        final x = ((gx + 0.5) / grid * w).floor(), y = ((gy + 0.5) / grid * h).floor();
+        if (data.getUint8((y * w + x) * 4 + 3) < 60) continue;
+        final c = Offset((gx + 0.5) / grid, (gy + 0.5) / grid);
+        final d = (c - const Offset(0.5, 0.5)).distance + rand.nextDouble() * 0.12;
+        cells.add((_Spot(c, 1.1 / grid), d));
+      }
+    }
+    cells.sort((a, b) => a.$2.compareTo(b.$2));
+    return [for (final c in cells) c.$1];
   }
 
   @override

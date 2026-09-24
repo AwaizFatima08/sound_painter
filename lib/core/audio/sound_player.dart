@@ -38,10 +38,12 @@ class SoundPlayer {
     speaking.value = true;
     _duck(true);
     try {
-      await _voice.setAsset('assets/audio/voice/$id.wav');
+      final dur = await _voice.setAsset('assets/audio/voice/$id.mp3');
       await _voice.setVolume(voiceVolume);
-      await _voice.play();
-      await _voice.processingStateStream.firstWhere((s) => s == ProcessingState.completed);
+      // play() completes when playback ends, pauses or is stopped. The
+      // timeout guarantees a stuck player can never keep the mic muted.
+      await _voice.play().timeout((dur ?? const Duration(seconds: 12)) + const Duration(milliseconds: 1500),
+          onTimeout: () => _voice.stop());
     } catch (e) {
       debugPrint('voice line $id failed: $e');
     } finally {

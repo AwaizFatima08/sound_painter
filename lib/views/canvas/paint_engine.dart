@@ -68,9 +68,41 @@ class PaintEngine {
     }
   }
 
-  void fingerDown(Offset p) => _finger = p;
-  void fingerMove(Offset p) => _finger = p;
+  // Last frame's voice, so finger strokes can use its colour and size.
+  VoiceFrame _lastFrame = VoiceFrame.silent;
+
+  void fingerDown(Offset p) {
+    _finger = p;
+    _stampSegment(p, p);
+  }
+
+  /// A quick swipe can cross the screen between two frames, so finger paint
+  /// is laid along the path by distance, not only per frame.
+  void fingerMove(Offset p) {
+    final from = _finger ?? p;
+    _finger = p;
+    _stampSegment(from, p);
+  }
+
   void fingerUp() => _finger = null;
+
+  double get _fingerRadius {
+    final f = _lastFrame;
+    return (f.voiced && f.level > 0 ? 8 + 34 * f.level : 18) * (calm ? 0.85 : 1);
+  }
+
+  void _stampSegment(Offset a, Offset b) {
+    if (_size == Size.zero) return;
+    final r = _fingerRadius;
+    final color = HSVColor.fromAHSV(1, _hue % 360, calm ? 0.55 : 0.82, 1).toColor().withValues(alpha: 0.55);
+    final d = (b - a).distance;
+    final steps = math.max(1, (d / (r * 0.3)).ceil());
+    for (var i = 0; i <= steps; i++) {
+      final t = i / steps;
+      _pending.add(_Dot(Offset.lerp(a, b, t)!, r * (0.85 + _rand.nextDouble() * 0.3), color));
+      painted++;
+    }
+  }
 
   ui.Image _makeSprite() {
     const s = 64.0;
@@ -91,6 +123,7 @@ class PaintEngine {
     if (_size == Size.zero) return;
     _sprite ??= _makeSprite();
     _time += dt;
+    _lastFrame = f;
     final w = _size.width, h = _size.height;
     final voiced = f.voiced && f.level > 0;
 
@@ -124,7 +157,7 @@ class PaintEngine {
     if (active) {
       final level = voiced ? f.level : 0.35;
       final rate = (calm ? 45.0 : 110.0) * (0.35 + level);
-      final radius = (voiced ? 6 + 38 * f.level : 14) * (calm ? 0.85 : 1);
+      final radius = (voiced ? 6 + 38 * f.level : 18) * (calm ? 0.85 : 1);
       _emitDebt += rate * dt;
       final color = HSVColor.fromAHSV(1, _hue % 360, calm ? 0.55 : 0.82, 1).toColor();
       while (_emitDebt >= 1) {

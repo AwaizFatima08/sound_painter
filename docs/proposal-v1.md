@@ -24,6 +24,16 @@ These are the owner's answers to §7. They override anything below that conflict
 
 **Knock-on change:** Gemini makes still images, not Rive animation files. The characters will therefore be Gemini-drawn pose images (e.g. Pip idle, low and high), animated in Flutter code (bounce, squash, glow, cross-fade between poses). Rive is dropped from the tool list. Gemini also can't reliably draw letters, so every image is prompted text-free, which fits the zero-text UI anyway.
 
+**Built (2026-09-24):** v1.0.0 covers M0–M7 in one pass, at the owner's request. Deviations from the tool table below, all simplifications with the same behaviour:
+- **State:** plain services passed through an `InheritedWidget` instead of Riverpod.
+- **Storage:** one JSON file plus PNGs instead of drift/SQLite (the data is small).
+- **Audio analysis:** on the main isolate. It runs smoothly on the emulator; still to be confirmed on a budget real device.
+- **Vowel recognition:** harmonic-fit matching instead of LPC, because LPC failed at children's pitch in tests.
+- **Characters:** Gemini pose images animated in code instead of Rive (see §0).
+- **Phonics vowels:** short phonics vowels (a/e/i/o/u as in apple, egg, igloo, octopus, umbrella), stretched, instead of the "aaah/eee" set in §4.1, to match the GDD's pictures.
+- **Clear button:** the canvas's clear is a hold-to-clear "new page", and the old page is auto-saved first.
+- **Not in v1:** Aria's animated mouth-position diagram (§3.4). She models each sound by voice, and a "hear it again" button repeats it. Also deferred: Pip's pitch game (§4.2) and per-child vowel calibration (§4.3); vowel matching uses fixed child reference values with an adult/child pitch adjustment.
+
 ---
 
 ## 1. What stays as you designed it
