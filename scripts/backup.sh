@@ -8,6 +8,9 @@
 #
 # Run:  bash /mnt/storage/projects/sound_painter/scripts/backup.sh
 #
+# Layer 2 skips .git/: Drive throttles thousands of tiny object files, and
+# GitHub plus Layer 1 already hold the history.
+#
 # Layers 1 and 2 include .secrets/ (Gemini key, release keystore) because both
 # are private storage. Layer 3 is public, so .secrets/ is gitignored there.
 #
@@ -51,7 +54,7 @@ if ! command -v rclone >/dev/null 2>&1 || ! rclone listremotes 2>/dev/null | gre
   log "  SKIPPED — rclone or the '$GDRIVE_REMOTE' remote is not configured"
 elif rclone copy "$PROJECT_DIR" "${GDRIVE_REMOTE}:" \
     --drive-root-folder-id "$GDRIVE_FOLDER_ID" \
-    --exclude "scripts/backup.log" --exclude-from "$EXCLUDES" \
+    --exclude "scripts/backup.log" --exclude ".git/**" --exclude-from "$EXCLUDES" \
     --update --checksum --log-file="$LOG_FILE" --log-level INFO; then
   log "  OK — synced to Google Drive folder ($GDRIVE_FOLDER_ID)"
 else
