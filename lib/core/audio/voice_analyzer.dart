@@ -148,6 +148,10 @@ class VoiceAnalyzer {
 
   Calibration calibration;
 
+  /// Vowel matching is the costliest step; only screens that use it (Phonics
+  /// Safari, Sound check) turn it on.
+  bool scoreVowels = false;
+
   final classifier = VowelClassifier();
   final _yin = YinPitchDetector();
   final _smooth = MedianSmoother(5);
@@ -198,7 +202,7 @@ class VoiceAnalyzer {
     Map<Vowel, double>? scores;
     if (p.voiced && p.clarity > 0.6) {
       classifier.observePitch(p.hz);
-      scores = classifier.score(w, p.hz);
+      if (scoreVowels) scores = classifier.score(w, p.hz);
     }
     return VoiceFrame(
       rms: r,

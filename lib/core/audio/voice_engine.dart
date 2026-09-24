@@ -40,6 +40,9 @@ class VoiceEngine {
   VoiceAnalyzer get analyzer => _analyzer;
 
   set calibration(Calibration c) => _analyzer.calibration = c;
+
+  /// Turn on vowel recognition (Phonics Safari, Sound check).
+  set scoreVowels(bool on) => _analyzer.scoreVowels = on;
   Calibration get calibration => _analyzer.calibration;
 
   /// Starts listening. Returns false when the mic isn't available (no
@@ -62,6 +65,7 @@ class VoiceEngine {
 
   Future<void> stop() async {
     _running = false;
+    _analyzer.scoreVowels = false;
     await _sub?.cancel();
     _sub = null;
     await _input?.stop();

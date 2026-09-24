@@ -37,7 +37,7 @@ void main() {
   for (final v in [Vowel.a, Vowel.i, Vowel.u]) {
     test('real voice: /${v.letter}/ is the most-heard vowel in Aria\'s ${v.word} line', () {
       final votes = <Vowel, int>{};
-      for (final f in VoiceAnalyzer().add(readWav16k('art/voice/aria_${v.name}.wav'))) {
+      for (final f in (VoiceAnalyzer()..scoreVowels = true).add(readWav16k('art/voice/aria_${v.name}.wav'))) {
         if (f.vowel != null) votes[f.vowel!] = (votes[f.vowel!] ?? 0) + 1;
       }
       final top = votes.entries.reduce((a, b) => a.value >= b.value ? a : b).key;

@@ -86,7 +86,10 @@ class _SafariLevelViewState extends ListeningState<SafariLevelView> {
   }
 
   @override
-  void onStarted() => _model();
+  void onStarted() {
+    services.voice.scoreVowels = true;
+    _model();
+  }
 
   Future<void> _model() async {
     _silence = 0;

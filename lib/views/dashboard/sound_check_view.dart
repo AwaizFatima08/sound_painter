@@ -24,6 +24,9 @@ class _SoundCheckViewState extends ListeningState<SoundCheckView> {
   double _holdTime = 0;
 
   @override
+  void onStarted() => services.voice.scoreVowels = true;
+
+  @override
   void onVoice(VoiceFrame f, double dt) {
     _f = f;
     _peakRms = f.rms > _peakRms ? f.rms : _peakRms * 0.995;

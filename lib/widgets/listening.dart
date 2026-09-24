@@ -68,7 +68,9 @@ abstract class ListeningState<T extends StatefulWidget> extends State<T>
     final dt = _last == Duration.zero ? 1 / 60 : (elapsed - _last).inMicroseconds / 1e6;
     _last = elapsed;
     final f = services.voice.frame.value;
-    final step = dt.clamp(0.0, 0.1);
+    // Real elapsed time (capped only against long stalls), so a slow frame
+    // rate on a budget device can't stretch the warm-up or prompt timers.
+    final step = dt.clamp(0.0, 0.5);
     services.session.onVoice(f, step);
     onVoice(f, step);
   }

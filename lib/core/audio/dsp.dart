@@ -163,6 +163,7 @@ class VowelClassifier {
   /// adult up to 1.25).
   double scale = 1.0;
   double _f0Log = math.log(280);
+  Float64List _window = Float64List(0);
 
   /// Tracks the speaker's typical pitch and derives [scale] from it.
   void observePitch(double hz) {
@@ -177,16 +178,29 @@ class VowelClassifier {
   Map<Vowel, double>? score(Float32List x, double f0) {
     if (f0 <= 0) return null;
     final n = x.length;
+    if (_window.length != n) {
+      _window = Float64List(n);
+      for (var i = 0; i < n; i++) {
+        _window[i] = 0.5 - 0.5 * math.cos(2 * math.pi * i / (n - 1));
+      }
+    }
+    final win = _window;
     final harmonics = <double>[];
     final measured = <double>[];
     for (var k = 1; k * f0 <= _maxHz; k++) {
       final f = k * f0;
+      // Single-bin DFT with a rotating phasor: one complex multiply per
+      // sample instead of a sin and a cos (this runs ~30x per second).
       final w = 2 * math.pi * f / sampleRate;
-      var re = 0.0, im = 0.0;
+      final cw = math.cos(w), sw = math.sin(w);
+      var c = 1.0, s = 0.0, re = 0.0, im = 0.0;
       for (var i = 0; i < n; i++) {
-        final v = x[i] * (0.5 - 0.5 * math.cos(2 * math.pi * i / (n - 1)));
-        re += v * math.cos(w * i);
-        im -= v * math.sin(w * i);
+        final v = x[i] * win[i];
+        re += v * c;
+        im -= v * s;
+        final nc = c * cw - s * sw;
+        s = s * cw + c * sw;
+        c = nc;
       }
       harmonics.add(f);
       measured.add(10 * math.log(re * re + im * im + 1e-12) / math.ln10);

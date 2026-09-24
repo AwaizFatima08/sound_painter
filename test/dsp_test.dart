@@ -55,7 +55,7 @@ void main() {
     for (final v in Vowel.values) {
       for (final f0 in [240.0, 300.0, 360.0]) {
         test('classifies synthetic child /${v.letter}/ at ${f0.round()} Hz', () {
-          final analyzer = VoiceAnalyzer();
+          final analyzer = VoiceAnalyzer()..scoreVowels = true;
           final frames = analyzer.add(SynthVoice().childVowel(v, f0: f0));
           final votes = <Vowel, int>{};
           for (final fr in frames) {
@@ -83,7 +83,7 @@ void main() {
       test('an adult /${v.letter}/ (formants 0.8x, 120 Hz) is recognised', () {
         final (f1, f2) = VowelClassifier.childCentroids[v]!;
         final x = SynthVoice().vowel(seconds: 1.5, f0: 120, f1: f1 * 0.8, f2: f2 * 0.8, f3: 2900);
-        final a = VoiceAnalyzer();
+        final a = VoiceAnalyzer()..scoreVowels = true;
         final votes = <Vowel, int>{};
         for (final fr in a.add(x).skip(10)) {
           if (fr.vowel != null) votes[fr.vowel!] = (votes[fr.vowel!] ?? 0) + 1;
