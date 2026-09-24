@@ -52,3 +52,7 @@ android/key.properties
 releases/
 scripts/backup.log
 .~lock.*#
+android/build/
+# Gemini originals (~44 MB): kept in the local + Google Drive backups, not the
+# public repo. Processed app assets in assets/ are committed.
+art/raw/
