@@ -27,7 +27,8 @@ A voice-to-paint educational game for children aged 3–6 who learn at their own
 ## Status (2026-09-24)
 v1.0.0 (versionCode 1) is built, signed with the upload key and tested; it is ready for the owner to upload to Play Console.
 - `releases/v1.0.0-1/` holds the AAB and APK (gitignored; in the local and Drive backups).
-- `store-assets/` holds the icon, feature graphic, screenshots and privacy policy. The policy still needs hosting and a contact email.
+- `store-assets/` holds the icon, feature graphic and screenshots. `website/` is the site for **soundpainter.homilabs.org** (landing page and privacy policy), uploaded by the owner. The contact address is **homilabs.smc@gmail.com**.
+- `releases/v1.0.0-1/play-package/` (and its `.zip`) is the complete hand-off: the AAB, store graphics, website upload and listing text, plus `README-FIRST.md`. The owner handles Play Console personally.
 - `docs/play-console-listing-kit.md` has the listing text and form answers. `docs/testing.md` covers the test suites and the manual real-voice checklist.
 
 ## Code map

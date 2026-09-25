@@ -12,7 +12,7 @@ Copy-paste material for creating the app in Play Console. Everything here reflec
 | Phone screenshots (8, 16:9) | `store-assets/screenshots/phone/` |
 | 7-inch tablet screenshots (4, 16:10) | `store-assets/screenshots/tablet-7in/` |
 | 10-inch tablet screenshots (4, 16:10) | `store-assets/screenshots/tablet-10in/` |
-| Privacy policy | `store-assets/privacy-policy.html`, which must be **hosted at a public URL** first (see the end of this file) |
+| Privacy policy | https://soundpainter.homilabs.org/privacy-policy.html (upload the `website/` folder first; see the end of this file) |
 
 Package: `com.homilabs.soundpainter` · version 1.0.0 (versionCode 1) · targetSdk 36 · minSdk 24.
 Use **Play App Signing** (the default): Google keeps the app-signing key, and this project's `.secrets/sound-painter-upload.keystore` is the upload key.
@@ -57,14 +57,14 @@ Sound Painter is an educational game. It is not a therapy or medical tool.
 
 **App category**: Education
 **Tags** (pick from Play's list): Educational · Kids · Music (or Art & Design)
-**Contact email**: your developer contact address (required, shown publicly)
-**Website**: optional
+**Contact email**: homilabs.smc@gmail.com
+**Website**: https://soundpainter.homilabs.org
 
 ## App content
 
 | Section | Answer |
 |---|---|
-| Privacy policy | URL of the hosted `privacy-policy.html` |
+| Privacy policy | https://soundpainter.homilabs.org/privacy-policy.html |
 | Ads | **No**, the app contains no ads |
 | App access | **All functionality is available without special access** (no login) |
 | Content rating (IARC questionnaire) | Category: *Reference, news or educational* (or *Game, All other*); answer **No** to violence, sexuality, language, controlled substances, gambling, user interaction/sharing, location sharing, purchases. Expected result: Everyone / PEGI 3 / all ages |
@@ -98,10 +98,17 @@ Sound Painter is an educational game. It is not a therapy or medical tool.
 2. The pre-launch robot will reach the parent setup screens and can tap through them. The microphone parts will be silent on its devices, which the app handles (the warm-up skips gently and finger painting still works).
 3. Promote to Closed or Production when you're happy. Note: if the Play developer account is a *personal* account created after November 2023, Google requires a closed test with at least 12 opted-in testers for 14 consecutive days before production access. Organisation accounts are exempt. Your tester pool fits this step well.
 
-## Hosting the privacy policy
+## Hosting the website (do this before submitting)
 
-Play needs a public URL. Options:
-- **GitHub Pages** from this public repo: repo *Settings → Pages → Deploy from branch `main`, folder `/ (root)`*. The policy would then be at `https://awaizfatima08.github.io/sound_painter/store-assets/privacy-policy.html`.
-- Or upload `privacy-policy.html` to any website you control.
+Upload the **contents** of the `website/` folder to the root of `soundpainter.homilabs.org`:
 
-Fill in the contact email placeholder in the file first.
+| File | Purpose |
+|---|---|
+| `index.html` | Landing page (the listing's Website field) |
+| `privacy-policy.html` | The privacy policy URL Play requires |
+| `icon-512.png`, `feature.jpg`, `shot-*.jpg` | Images used by the two pages |
+
+Then check that https://soundpainter.homilabs.org/privacy-policy.html opens in a browser before pasting it into Play Console.
+
+Once the app is live, change the landing page badge "Coming soon to Google Play" (in `index.html`) to a link:
+`https://play.google.com/store/apps/details?id=com.homilabs.soundpainter`

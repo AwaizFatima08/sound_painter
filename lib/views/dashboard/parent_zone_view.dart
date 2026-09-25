@@ -404,6 +404,8 @@ class _ParentZoneViewState extends State<ParentZoneView> with WidgetsBindingObse
             'child or uninstalling the app deletes them.'),
         const Bullet(icon: Icons.volunteer_activism_rounded, text: 'Sound Painter is a free community-welfare project. '
             'It is an educational game, not a therapy or medical tool.'),
+        const Bullet(icon: Icons.mail_rounded, text: 'Questions or feedback: homilabs.smc@gmail.com\n'
+            'Privacy policy: soundpainter.homilabs.org/privacy-policy.html'),
         const SizedBox(height: 10),
         Row(children: [
           const Text('Version $appVersion', style: TextStyle(color: SP.muted)),
