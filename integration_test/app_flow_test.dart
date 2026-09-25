@@ -34,6 +34,16 @@ Future<void> wait(WidgetTester t, double seconds) async {
 Finder button(String label) =>
     find.byWidgetPredicate((w) => w is BouncyButton && w.label == label, description: 'button "$label"');
 
+/// Waits (pumping) until [f] finds something; slow budget phones in debug
+/// mode can take many seconds per screen, so waits are conditions, not fixed.
+Future<void> waitFor(WidgetTester t, Finder f, {double timeout = 60}) async {
+  final end = DateTime.now().add(Duration(seconds: timeout.round()));
+  while (f.evaluate().isEmpty) {
+    if (DateTime.now().isAfter(end)) fail('Timed out waiting for $f');
+    await t.pump(const Duration(milliseconds: 100));
+  }
+}
+
 Future<void> tapWhenReady(WidgetTester t, Finder f, {double timeout = 60}) async {
   final end = DateTime.now().add(Duration(seconds: timeout.round()));
   while (f.evaluate().isEmpty) {
@@ -87,11 +97,8 @@ void main() {
     await wait(t, 12);
     await shot(t, '01_warmup');
     final home = button('Free Canvas: paint with your voice');
-    final warmEnd = DateTime.now().add(const Duration(seconds: 150));
-    while (home.evaluate().isEmpty && DateTime.now().isBefore(warmEnd)) {
-      await t.pump(const Duration(milliseconds: 100));
-    }
-    expect(home, findsOneWidget, reason: 'warm-up should finish on its own');
+    await waitFor(t, home, timeout: 300); // warm-up finishes on its own
+    expect(home, findsOneWidget);
     expect(store.active!.warmedUp, isTrue);
     debugPrint('calibration: ${store.active!.calibration.toJson()}');
     await wait(t, 3);
@@ -105,6 +112,7 @@ void main() {
     await shot(t, '03_free_canvas');
     await tapWhenReady(t, button('Home'));
     await wait(t, 3);
+    await waitFor(t, button('Phonics Safari: colour pictures with sounds'), timeout: 30);
     expect(await store.paintings(store.active!), isNotEmpty, reason: 'painting auto-saved');
 
     // 3. Phonics Safari: hold "aaa" for the apple until it's coloured in.
@@ -118,11 +126,8 @@ void main() {
     await shot(t, '05_safari_colouring');
     debugPrint('safari: speaking=${sound.speaking.value} voice=${store.active!.vowels[Vowel.a]!.practiceSeconds.toStringAsFixed(1)}s');
     final again = button('Colour it again');
-    final safariEnd = DateTime.now().add(const Duration(seconds: 60));
-    while (again.evaluate().isEmpty && DateTime.now().isBefore(safariEnd)) {
-      await t.pump(const Duration(milliseconds: 100));
-    }
-    expect(again, findsOneWidget, reason: 'picture should complete');
+    await waitFor(t, again, timeout: 120); // picture completes
+    expect(again, findsOneWidget);
     expect(store.active!.vowels[Vowel.a]!.pictures, 1);
     expect(store.active!.vowels[Vowel.a]!.matchSeconds, greaterThan(0), reason: 'vowel /a/ recognised');
     await shot(t, '06_safari_done');
@@ -134,8 +139,7 @@ void main() {
     // 4. Gallery shows the saved painting.
     debugPrint('STEP 4');
     await tapWhenReady(t, button('My paintings'));
-    await wait(t, 3);
-    expect(button('Painting 1'), findsOneWidget);
+    await waitFor(t, button('Painting 1'), timeout: 30);
     await shot(t, '07_gallery');
     await tapWhenReady(t, button('Home'));
     await wait(t, 2);
@@ -143,15 +147,13 @@ void main() {
     // 5. Parent gate + Parent Zone.
     debugPrint('STEP 5');
     await tapWhenReady(t, button('Grown-ups'));
-    await wait(t, 1);
     final q = find.textContaining('What is ');
-    expect(q, findsOneWidget);
+    await waitFor(t, q, timeout: 30);
     final m = RegExp(r'What is (\d+) × (\d+)\?').firstMatch((q.evaluate().first.widget as Text).data!)!;
     final answer = int.parse(m[1]!) * int.parse(m[2]!);
     await t.tap(find.text('$answer'));
-    await wait(t, 2);
+    await waitFor(t, find.text('Test: progress'), timeout: 30);
     expect(find.text('Grown-ups'), findsOneWidget);
-    expect(find.text('Test: progress'), findsOneWidget);
     await shot(t, '08_parent_zone');
 
     await t.fling(find.byType(CustomScrollView), const Offset(0, -2500), 3000);

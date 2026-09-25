@@ -15,6 +15,13 @@
 - Monkey: 3,000 events on the release build: no crashes, no ANRs.
 - Release APK permissions: `RECORD_AUDIO` only (no internet permission).
 
+### Real device: Samsung Galaxy A12 (SM-A125F, budget phone), 25 Sep 2026
+- End-to-end in **profile** mode (`flutter drive --profile ...`): passed in 1.5 min. The warm-up measured a synthetic child range of 290–435 Hz, and /a/ was recognised in Phonics Safari.
+- Monkey on the release build: 1,000 events, no crashes, no ANRs.
+- Voice-analysis cost on the A12: 8–10% of one CPU core in profile mode (11–13% in debug). Vowel matching now runs only on the screens that need it.
+- Debug-mode runs on this phone are slow: the old fixed 1–2 s test waits timed out, so the test now waits for conditions.
+- One remaining rough spot: about 3–4 s of stutter (skipped frames) during the very first launch, none during play. Worth watching in Google's pre-launch report.
+
 Emulator notes for this NAS (4 CPU cores, no GPU): start the emulator with
 `-gpu swangle_indirect -cores 4 -memory 3072`. The default SwiftShader GL mode
 crashes the emulator ("Failed to find ColorBuffer"), and heavy load can trip its
