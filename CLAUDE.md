@@ -31,6 +31,11 @@ v1.0.0 (versionCode 1) is built, signed with the upload key and tested; it is re
 - `releases/v1.0.0-1/play-package/` (and its `.zip`) is the complete hand-off: the AAB, store graphics, website upload and listing text, plus `README-FIRST.md`. The owner handles Play Console personally.
 - `docs/play-console-listing-kit.md` has the listing text and form answers. `docs/testing.md` covers the test suites and the manual real-voice checklist.
 
+## Published state (2026-09-28)
+- **Play Console:** Homilabs organisation account (homilabs.smc@gmail.com), app "Sound Painter: Color My Voice", app ID 4973461187596724215. v1.0.0 (versionCode 1) was **submitted by the owner and is under review**. The rating is Everyone / PEGI 3 / 3+; the target audience is ages 5 and under plus 6–8 (Families program).
+- **Website:** https://soundpainter.homilabs.org is live on Hostinger (its own website in hPanel, Let's Encrypt SSL). The files were uploaded by hand through the File Manager into `public_html`; Hostinger's `default.php` placeholder is still there, but `index.html` is served first. The `website` git branch (made with `git subtree split --prefix=website`) mirrors those files. Hostinger's Git deploy would need GitHub OAuth, which the owner hasn't approved.
+- **Next upload:** bump `version:` in `pubspec.yaml` (e.g. `1.0.1+2`), rebuild with `flutter build appbundle --release`, and re-upload the site files if `website/` changed.
+
 ## Code map
 - `lib/core/audio/`: `dsp.dart` (YIN pitch, harmonic-fit vowel recognition), `voice_analyzer.dart` (calibration, streaming frames), `voice_engine.dart` (mic lifecycle; mutes while prompts speak), `audio_input.dart` (mic + `SynthInput`), `sound_player.dart` (voice lines, SFX, music), `synth_voice.dart` (test voice).
 - `lib/views/`: onboarding (parent setup, Pip's warm-up), home (+ profile picker), canvas (paint engine), safari (map + level), gallery, dashboard (parent zone, sound check).
