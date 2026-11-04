@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sound_painter/core/audio/dsp.dart';
+import 'package:sound_painter/core/audio/sound_player.dart';
 import 'package:sound_painter/models/phonics.dart';
 import 'package:sound_painter/models/profile.dart';
 
@@ -26,8 +27,10 @@ void main() {
     final ant = Phonics.byId('ant');
     AssetCatalog.debugSet({});
     expect(AssetCatalog.voice(ant.voiceLine, ant.fallbackVoiceLine), 'aria_a');
-    AssetCatalog.debugSet({'assets/audio/voice/aria_ant.mp3'});
+    AssetCatalog.debugSet({voiceAsset('aria_ant')});
     expect(AssetCatalog.voice(ant.voiceLine, ant.fallbackVoiceLine), 'aria_ant');
+    expect(voiceAsset('aria_ant'), startsWith('assets/audio/homidev/'), reason: 'approved Kokoro line');
+    expect(voiceAsset('pip_hello'), 'assets/audio/voice/pip_hello.mp3', reason: 'v1 line until re-voiced');
   });
 
   test('v1 progress (per vowel) moves to that vowel\'s first picture', () {

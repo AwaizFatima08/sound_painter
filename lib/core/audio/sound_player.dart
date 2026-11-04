@@ -3,6 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 
+import 'voice_map.g.dart';
+
+/// The asset for voice line [id]: the owner-approved homidev recording when
+/// there is one, else the v1 line.
+String voiceAsset(String id) => approvedVoiceLines[id] ?? 'assets/audio/voice/$id.mp3';
+
 /// Short sound effects bundled in assets/audio/sfx/.
 enum Sfx { pop, chime, sparkle, whoosh, tada }
 
@@ -38,7 +44,7 @@ class SoundPlayer {
     speaking.value = true;
     _duck(true);
     try {
-      final dur = await _voice.setAsset('assets/audio/voice/$id.mp3');
+      final dur = await _voice.setAsset(voiceAsset(id));
       await _voice.setVolume(voiceVolume);
       // play() completes when playback ends, pauses or is stopped. The
       // timeout guarantees a stuck player can never keep the mic muted.

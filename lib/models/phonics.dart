@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 
 import '../core/audio/dsp.dart';
+import '../core/audio/sound_player.dart';
 
 /// One Phonics Safari picture: an object whose word starts with a vowel sound.
 class PhonicsPicture {
@@ -68,6 +69,5 @@ abstract final class AssetCatalog {
   static bool has(String path) => _assets?.contains(path) ?? true;
 
   /// Voice line [id] if bundled, else [fallback].
-  static String voice(String id, String fallback) =>
-      has('assets/audio/voice/$id.mp3') ? id : fallback;
+  static String voice(String id, String fallback) => has(voiceAsset(id)) ? id : fallback;
 }

@@ -59,6 +59,7 @@ flutter:
   assets:
     - assets/images/
     - assets/homidev/
+    - assets/audio/homidev/
     - assets/audio/voice/
     - assets/audio/sfx/
     - assets/audio/music/
