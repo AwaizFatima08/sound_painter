@@ -135,6 +135,8 @@ void main() {
     await wait(t, 4);
     await shot(t, '04_safari_map');
     script = SynthInput.vowelScript(Vowel.a);
+    await tapWhenReady(t, button('The a island: apple, ant, alligator'));
+    await wait(t, 3);
     await tapWhenReady(t, button('apple, the a sound'));
     await wait(t, 14);
     await shot(t, '05_safari_colouring');
@@ -143,8 +145,12 @@ void main() {
     await waitFor(t, again, timeout: 120); // picture completes
     expect(again, findsOneWidget);
     expect(store.active!.vowels[Vowel.a]!.pictures, 1);
+    expect(store.active!.pictureDone['apple'], 1);
     expect(store.active!.vowels[Vowel.a]!.matchSeconds, greaterThan(0), reason: 'vowel /a/ recognised');
     await shot(t, '06_safari_done');
+    await tapWhenReady(t, button('Back to the map')); // to the island
+    await wait(t, 2);
+    await shot(t, '06b_safari_island');
     await tapWhenReady(t, button('Back to the map'));
     await wait(t, 2);
     await tapWhenReady(t, button('Home'));

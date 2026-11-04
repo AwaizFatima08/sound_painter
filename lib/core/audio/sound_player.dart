@@ -44,12 +44,20 @@ class SoundPlayer {
     speaking.value = true;
     _duck(true);
     try {
-      final dur = await _voice.setAsset(voiceAsset(id));
+      final dur = await _voice.setAsset(voiceAsset(id)).timeout(const Duration(seconds: 5));
       await _voice.setVolume(voiceVolume);
       // play() completes when playback ends, pauses or is stopped. The
-      // timeout guarantees a stuck player can never keep the mic muted.
-      await _voice.play().timeout((dur ?? const Duration(seconds: 12)) + const Duration(milliseconds: 1500),
-          onTimeout: () => _voice.stop());
+      // deadline guarantees a stuck player can never keep the mic muted:
+      // stop() is not awaited, since a stuck audio device can hang it too.
+      final limit = (dur ?? const Duration(seconds: 12)) + const Duration(milliseconds: 1500);
+      final finished = await Future.any([
+        _voice.play().then((_) => true),
+        Future<bool>.delayed(limit, () => false),
+      ]);
+      if (!finished) {
+        debugPrint('voice line $id stuck after $limit; stopping');
+        unawaited(_voice.stop().catchError((Object _) {}));
+      }
     } catch (e) {
       debugPrint('voice line $id failed: $e');
     } finally {
