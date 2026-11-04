@@ -110,7 +110,19 @@ void main() {
     debugPrint('STEP 2');
     script = SynthInput.demoScript();
     await tapWhenReady(t, home);
-    await wait(t, 16);
+    // Sample what the canvas hears (diagnostic for slow devices/emulators).
+    var heard = 0, muted = 0, samples = 0, frames = 0;
+    final canvasEnd = DateTime.now().add(const Duration(seconds: 16));
+    final sw = Stopwatch()..start();
+    while (DateTime.now().isBefore(canvasEnd)) {
+      await t.pump(const Duration(milliseconds: 50));
+      frames++;
+      samples++;
+      if (voice.frame.value.voiced) heard++;
+      if (sound.speaking.value) muted++;
+    }
+    debugPrint('canvas: ${(frames / (sw.elapsedMilliseconds / 1000)).toStringAsFixed(1)} pumps/s, '
+        'voiced ${(100 * heard / samples).round()}%, prompt muting ${(100 * muted / samples).round()}%');
     await shot(t, '03_free_canvas');
     await tapWhenReady(t, button('Home'));
     await wait(t, 3);

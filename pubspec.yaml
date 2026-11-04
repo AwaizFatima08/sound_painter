@@ -58,6 +58,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/homidev/
     - assets/audio/voice/
     - assets/audio/sfx/
     - assets/audio/music/
