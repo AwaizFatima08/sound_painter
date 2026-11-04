@@ -123,6 +123,7 @@ class Store extends ChangeNotifier {
         ..pictures = 0;
     }
     p.sessions.clear();
+    p.pictureDone.clear();
     await save();
   }
 

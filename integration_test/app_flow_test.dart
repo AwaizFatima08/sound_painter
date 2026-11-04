@@ -16,6 +16,7 @@ import 'package:sound_painter/core/audio/dsp.dart';
 import 'package:sound_painter/core/audio/sound_player.dart';
 import 'package:sound_painter/core/audio/voice_engine.dart';
 import 'package:sound_painter/main.dart';
+import 'package:sound_painter/models/phonics.dart';
 import 'package:sound_painter/models/profile.dart';
 import 'package:sound_painter/services/session.dart';
 import 'package:sound_painter/services/store.dart';
@@ -73,6 +74,7 @@ void main() {
   }
 
   testWidgets('a child warms up, paints, colours a picture, and a parent sees progress', (t) async {
+    await AssetCatalog.load();
     final dir = await Directory.systemTemp.createTemp('sp_it');
     final store = await Store.open(dir);
     store.addProfile(avatar: Avatar.fox, nickname: 'Test');

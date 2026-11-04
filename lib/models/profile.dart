@@ -87,8 +87,10 @@ class Profile {
     Map<Vowel, VowelStats>? vowels,
     List<SessionRecord>? sessions,
     this.paintings = 0,
+    Map<String, int>? pictureDone,
   })  : vowels = vowels ?? {for (final v in Vowel.values) v: VowelStats()},
-        sessions = sessions ?? [];
+        sessions = sessions ?? [],
+        pictureDone = pictureDone ?? {};
 
   final String id;
   Avatar avatar;
@@ -108,6 +110,9 @@ class Profile {
   final Map<Vowel, VowelStats> vowels;
   final List<SessionRecord> sessions;
   int paintings;
+
+  /// Phonics Safari: times each picture (by word, e.g. "ant") was coloured in.
+  final Map<String, int> pictureDone;
 
   /// Keep a year of daily play at most.
   static const maxSessions = 400;
@@ -135,6 +140,7 @@ class Profile {
         'vowels': {for (final e in vowels.entries) e.key.name: e.value.toJson()},
         'sessions': [for (final s in sessions) s.toJson()],
         'paintings': paintings,
+        'pictureDone': pictureDone,
       };
 
   factory Profile.fromJson(Map<String, dynamic> j) {
@@ -156,7 +162,21 @@ class Profile {
           SessionRecord.fromJson((s as Map).cast<String, dynamic>()),
       ],
       paintings: (j['paintings'] as num?)?.toInt() ?? 0,
+      pictureDone: _pictureDone(j),
     );
+  }
+
+  /// v1 had one picture per vowel and counted completions per vowel; carry
+  /// those over to that vowel's first picture.
+  static Map<String, int> _pictureDone(Map<String, dynamic> j) {
+    final pd = (j['pictureDone'] as Map?)?.map((k, v) => MapEntry(k as String, (v as num).toInt()));
+    if (pd != null) return pd;
+    final vj = (j['vowels'] as Map?)?.cast<String, dynamic>() ?? {};
+    return {
+      for (final v in Vowel.values)
+        if (((vj[v.name] as Map?)?['pictures'] as num? ?? 0) > 0)
+          v.word: ((vj[v.name] as Map)['pictures'] as num).toInt(),
+    };
   }
 }
 

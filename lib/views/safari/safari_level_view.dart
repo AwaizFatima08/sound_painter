@@ -9,6 +9,7 @@ import '../../core/audio/dsp.dart';
 import '../../core/audio/sound_player.dart';
 import '../../core/audio/voice_analyzer.dart';
 import '../../core/theme.dart';
+import '../../models/phonics.dart';
 import '../../models/profile.dart';
 import '../../widgets/kid_widgets.dart';
 import '../../widgets/listening.dart';
@@ -19,9 +20,9 @@ import '../../widgets/listening.dart';
 /// Errorless: any voice keeps colouring. In Practise level the target vowel
 /// colours faster; in Explore level every sound counts the same.
 class SafariLevelView extends StatefulWidget {
-  const SafariLevelView({super.key, required this.vowel});
+  const SafariLevelView({super.key, required this.picture});
 
-  final Vowel vowel;
+  final PhonicsPicture picture;
 
   @override
   State<SafariLevelView> createState() => _SafariLevelViewState();
@@ -40,7 +41,7 @@ class _SafariLevelViewState extends ListeningState<SafariLevelView> {
   double _celebrate = 0;
   List<_Spot> _spots = const [];
 
-  Vowel get v => widget.vowel;
+  Vowel get v => widget.picture.vowel;
   bool get practise => profile.level == PlayLevel.practise;
 
   @override
@@ -50,7 +51,7 @@ class _SafariLevelViewState extends ListeningState<SafariLevelView> {
   }
 
   Future<void> _loadImage() async {
-    final data = await rootBundle.load('assets/images/obj_${v.word}.webp');
+    final data = await rootBundle.load(widget.picture.image);
     final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
     final frame = await codec.getNextFrame();
     final spots = await _spotsFor(frame.image);
@@ -93,7 +94,8 @@ class _SafariLevelViewState extends ListeningState<SafariLevelView> {
 
   Future<void> _model() async {
     _silence = 0;
-    await services.sound.say('aria_${v.name}');
+    final p = widget.picture;
+    await services.sound.say(AssetCatalog.voice(p.voiceLine, p.fallbackVoiceLine));
   }
 
   @override
@@ -147,6 +149,7 @@ class _SafariLevelViewState extends ListeningState<SafariLevelView> {
     _done = true;
     _progress = 1;
     profile.vowels[v]!.pictures++;
+    profile.pictureDone.update(widget.picture.id, (n) => n + 1, ifAbsent: () => 1);
     services.store.save();
     services.sound.sfx(Sfx.tada);
     Future<void>.delayed(const Duration(milliseconds: 700), () {
@@ -186,7 +189,7 @@ class _SafariLevelViewState extends ListeningState<SafariLevelView> {
         Center(
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Semantics(
-              label: 'Picture of ${v.word}',
+              label: 'Picture of ${widget.picture.id}',
               child: SizedBox(
                 width: pic,
                 height: pic,

@@ -5,6 +5,7 @@ import 'core/audio/audio_input.dart';
 import 'core/audio/sound_player.dart';
 import 'core/audio/voice_engine.dart';
 import 'core/theme.dart';
+import 'models/phonics.dart';
 import 'services/services.dart';
 import 'services/session.dart';
 import 'services/store.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
+  await AssetCatalog.load();
   final store = await Store.open();
   final sound = SoundPlayer();
   final st = store.settings;
