@@ -38,5 +38,8 @@
   "20261105-2337-sound-painter-voice-02": "session_end",
   "20261105-2337-sound-painter-voice-03": "warm_done",
   "20261105-2338-sound-painter-voice-01": "warm_high",
-  "20261105-2338-sound-painter-voice-02": "warm_loud"
+  "20261105-2338-sound-painter-voice-02": "warm_loud",
+  "20261106-0016-sound-painter-voice-01": "warm_low",
+  "20261106-0016-sound-painter-voice-02": "warm_quiet",
+  "20261106-0016-sound-painter-voice-03": "warm_skip"
 }
