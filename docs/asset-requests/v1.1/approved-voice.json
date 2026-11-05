@@ -23,5 +23,10 @@
   "20261105-2256-sound-painter-voice-02": "canvas_cleared",
   "20261105-2256-sound-painter-voice-03": "canvas_finger",
   "20261105-2256-sound-painter-voice-04": "canvas_high",
-  "20261105-2257-sound-painter-voice-01": "canvas_intro"
+  "20261105-2257-sound-painter-voice-01": "canvas_intro",
+  "20261105-2300-sound-painter-voice-01": "canvas_low",
+  "20261105-2300-sound-painter-voice-02": "canvas_praise1",
+  "20261105-2300-sound-painter-voice-03": "canvas_praise2",
+  "20261105-2301-sound-painter-voice-01": "canvas_praise3",
+  "20261105-2301-sound-painter-voice-02": "canvas_saved"
 }

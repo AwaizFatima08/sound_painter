@@ -27,4 +27,9 @@ const approvedVoiceLines = <String, String>{
   'canvas_finger': 'assets/audio/homidev/20261105-2256-sound-painter-voice-03_voice.ogg',
   'canvas_high': 'assets/audio/homidev/20261105-2256-sound-painter-voice-04_voice.ogg',
   'canvas_intro': 'assets/audio/homidev/20261105-2257-sound-painter-voice-01_voice.ogg',
+  'canvas_low': 'assets/audio/homidev/20261105-2300-sound-painter-voice-01_voice.ogg',
+  'canvas_praise1': 'assets/audio/homidev/20261105-2300-sound-painter-voice-02_voice.ogg',
+  'canvas_praise2': 'assets/audio/homidev/20261105-2300-sound-painter-voice-03_voice.ogg',
+  'canvas_praise3': 'assets/audio/homidev/20261105-2301-sound-painter-voice-01_voice.ogg',
+  'canvas_saved': 'assets/audio/homidev/20261105-2301-sound-painter-voice-02_voice.ogg',
 };
