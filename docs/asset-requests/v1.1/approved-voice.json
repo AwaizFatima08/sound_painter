@@ -33,5 +33,10 @@
   "20261105-2308-sound-painter-voice-02": "gallery_intro",
   "20261105-2308-sound-painter-voice-03": "home_hello",
   "20261105-2308-sound-painter-voice-04": "ollie_loud",
-  "20261105-2309-sound-painter-voice-01": "ollie_quiet"
+  "20261105-2309-sound-painter-voice-01": "ollie_quiet",
+  "20261105-2337-sound-painter-voice-01": "pip_hello",
+  "20261105-2337-sound-painter-voice-02": "session_end",
+  "20261105-2337-sound-painter-voice-03": "warm_done",
+  "20261105-2338-sound-painter-voice-01": "warm_high",
+  "20261105-2338-sound-painter-voice-02": "warm_loud"
 }
