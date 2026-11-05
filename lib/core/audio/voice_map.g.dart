@@ -7,4 +7,9 @@ const approvedVoiceLines = <String, String>{
   'aria_apple': 'assets/audio/homidev/20261104-2325-sound-painter-voice-01_voice.ogg',
   'aria_egg': 'assets/audio/homidev/20261104-2326-sound-painter-voice-01_voice.ogg',
   'aria_elephant': 'assets/audio/homidev/20261104-2326-sound-painter-voice-02_voice.ogg',
+  'aria_elf': 'assets/audio/homidev/20261105-0152-sound-painter-voice-03_voice.ogg',
+  'aria_igloo': 'assets/audio/homidev/20261105-0151-sound-painter-voice-01_voice.ogg',
+  'aria_ink': 'assets/audio/homidev/20261105-0152-sound-painter-voice-01_voice.ogg',
+  'aria_insect': 'assets/audio/homidev/20261105-0151-sound-painter-voice-02_voice.ogg',
+  'aria_octopus': 'assets/audio/homidev/20261105-0152-sound-painter-voice-02_voice.ogg',
 };
