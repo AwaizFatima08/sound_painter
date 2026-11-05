@@ -28,5 +28,10 @@
   "20261105-2300-sound-painter-voice-02": "canvas_praise1",
   "20261105-2300-sound-painter-voice-03": "canvas_praise2",
   "20261105-2301-sound-painter-voice-01": "canvas_praise3",
-  "20261105-2301-sound-painter-voice-02": "canvas_saved"
+  "20261105-2301-sound-painter-voice-02": "canvas_saved",
+  "20261105-2308-sound-painter-voice-01": "choose_friend",
+  "20261105-2308-sound-painter-voice-02": "gallery_intro",
+  "20261105-2308-sound-painter-voice-03": "home_hello",
+  "20261105-2308-sound-painter-voice-04": "ollie_loud",
+  "20261105-2309-sound-painter-voice-01": "ollie_quiet"
 }
