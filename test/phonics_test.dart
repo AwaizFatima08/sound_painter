@@ -30,7 +30,7 @@ void main() {
     AssetCatalog.debugSet({voiceAsset('aria_ant')});
     expect(AssetCatalog.voice(ant.voiceLine, ant.fallbackVoiceLine), 'aria_ant');
     expect(voiceAsset('aria_ant'), startsWith('assets/audio/homidev/'), reason: 'approved Kokoro line');
-    expect(voiceAsset('pip_hello'), 'assets/audio/voice/pip_hello.mp3', reason: 'v1 line until re-voiced');
+    expect(voiceAsset('no_such_line'), 'assets/audio/voice/no_such_line.mp3', reason: 'v1 line until re-voiced');
   });
 
   test('v1 progress (per vowel) moves to that vowel\'s first picture', () {
