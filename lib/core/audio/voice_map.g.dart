@@ -2,18 +2,23 @@
 // Owner-approved homidev voice lines: line id -> asset.
 
 const approvedVoiceLines = <String, String>{
+  'aria_again': 'assets/audio/homidev/20261105-2243-sound-painter-voice-01_voice.ogg',
   'aria_alligator': 'assets/audio/homidev/20261104-2325-sound-painter-voice-03_voice.ogg',
+  'aria_almost': 'assets/audio/homidev/20261105-2243-sound-painter-voice-02_voice.ogg',
   'aria_ant': 'assets/audio/homidev/20261104-2325-sound-painter-voice-02_voice.ogg',
   'aria_apple': 'assets/audio/homidev/20261104-2325-sound-painter-voice-01_voice.ogg',
   'aria_egg': 'assets/audio/homidev/20261104-2326-sound-painter-voice-01_voice.ogg',
   'aria_elephant': 'assets/audio/homidev/20261104-2326-sound-painter-voice-02_voice.ogg',
   'aria_elf': 'assets/audio/homidev/20261105-0152-sound-painter-voice-03_voice.ogg',
+  'aria_hello': 'assets/audio/homidev/20261105-2244-sound-painter-voice-01_voice.ogg',
   'aria_igloo': 'assets/audio/homidev/20261105-0151-sound-painter-voice-01_voice.ogg',
   'aria_ink': 'assets/audio/homidev/20261105-0152-sound-painter-voice-01_voice.ogg',
   'aria_insect': 'assets/audio/homidev/20261105-0151-sound-painter-voice-02_voice.ogg',
+  'aria_keep': 'assets/audio/homidev/20261105-2244-sound-painter-voice-02_voice.ogg',
   'aria_octopus': 'assets/audio/homidev/20261105-0152-sound-painter-voice-02_voice.ogg',
   'aria_ostrich': 'assets/audio/homidev/20261105-2239-sound-painter-voice-01_voice.ogg',
   'aria_ox': 'assets/audio/homidev/20261105-2239-sound-painter-voice-02_voice.ogg',
+  'aria_pick': 'assets/audio/homidev/20261105-2244-sound-painter-voice-03_voice.ogg',
   'aria_umbrella': 'assets/audio/homidev/20261105-1927-sound-painter-voice-03_voice.ogg',
   'aria_under': 'assets/audio/homidev/20261105-1928-sound-painter-voice-02_voice.ogg',
   'aria_up': 'assets/audio/homidev/20261105-1928-sound-painter-voice-01_voice.ogg',
