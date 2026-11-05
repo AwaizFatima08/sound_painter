@@ -2,6 +2,17 @@
 // Owner-approved homidev voice lines: line id -> asset.
 
 const approvedVoiceLines = <String, String>{
+  'animal_cat': 'assets/audio/homidev/20261106-0228-sound-painter-voice-03_voice.ogg',
+  'animal_cow': 'assets/audio/homidev/20261106-0228-sound-painter-voice-01_voice.ogg',
+  'animal_dog': 'assets/audio/homidev/20261106-0228-sound-painter-voice-04_voice.ogg',
+  'animal_duck': 'assets/audio/homidev/20261106-0230-sound-painter-voice-01_voice.ogg',
+  'animal_lion': 'assets/audio/homidev/20261106-0230-sound-painter-voice-03_voice.ogg',
+  'animal_sheep': 'assets/audio/homidev/20261106-0228-sound-painter-voice-02_voice.ogg',
+  'animal_snake': 'assets/audio/homidev/20261106-0230-sound-painter-voice-02_voice.ogg',
+  'animals_all': 'assets/audio/homidev/20261106-0231-sound-painter-voice-02_voice.ogg',
+  'animals_intro': 'assets/audio/homidev/20261106-0227-sound-painter-voice-01_voice.ogg',
+  'animals_woke1': 'assets/audio/homidev/20261106-0230-sound-painter-voice-04_voice.ogg',
+  'animals_woke2': 'assets/audio/homidev/20261106-0231-sound-painter-voice-01_voice.ogg',
   'aria_again': 'assets/audio/homidev/20261105-2243-sound-painter-voice-01_voice.ogg',
   'aria_alligator': 'assets/audio/homidev/20261104-2325-sound-painter-voice-03_voice.ogg',
   'aria_almost': 'assets/audio/homidev/20261105-2243-sound-painter-voice-02_voice.ogg',
