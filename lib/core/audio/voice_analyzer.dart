@@ -34,6 +34,10 @@ class Calibration {
     return v.clamp(0.0, 1.0);
   }
 
+  /// Level that separates this child's quiet voice from their big voice:
+  /// about 9 dB below their measured loud (35% of its RMS).
+  double get loudSplit => level(_topRms * 0.35);
+
   /// Maps pitch to 0 (child's lowest) .. 1 (child's highest), log scale,
   /// with a little headroom at both ends.
   double pitchNorm(double hz) {

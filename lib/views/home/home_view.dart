@@ -9,9 +9,12 @@ import '../../widgets/kid_widgets.dart';
 import '../../widgets/parent_gate.dart';
 import '../../widgets/rest_overlay.dart';
 import '../animals/animals_view.dart';
+import '../balloon/balloon_view.dart';
 import '../canvas/free_canvas_view.dart';
 import '../dashboard/parent_zone_view.dart';
 import '../gallery/gallery_view.dart';
+import '../hill/ice_hill_view.dart';
+import '../lanterns/lanterns_view.dart';
 import '../safari/safari_map_view.dart';
 import 'profile_picker_view.dart';
 
@@ -92,25 +95,39 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
     final size = MediaQuery.sizeOf(context);
     final profile = s.store.active;
     if (profile == null) return const SizedBox();
-    final badge = math.min(size.height * 0.42, size.width * 0.2);
+    final badge = math.min(size.height * 0.33, size.width * 0.16);
+    final gap = SizedBox(width: size.width * 0.03);
 
     return Scene(
       background: 'bg_home',
       child: Stack(children: [
         Align(
-          alignment: const Alignment(0, 0.1),
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _Badge(asset: 'badge_canvas', label: 'Free Canvas: paint with your voice', size: badge, phase: 0,
-                onTap: () => _open(const FreeCanvasView())),
-            SizedBox(width: size.width * 0.03),
-            _Badge(asset: 'badge_safari', label: 'Phonics Safari: colour pictures with sounds', size: badge, phase: 0.33,
-                onTap: () => _open(const SafariMapView())),
-            SizedBox(width: size.width * 0.03),
-            _Badge(asset: 'badge_animals', label: 'Animal Sounds: wake the sleepy animals', size: badge, phase: 0.5,
-                onTap: () => _open(const AnimalsView())),
-            SizedBox(width: size.width * 0.03),
-            _Badge(asset: 'badge_gallery', label: 'My paintings', size: badge, phase: 0.75,
-                onTap: () => _open(const GalleryView())),
+          alignment: const Alignment(0, 0.25),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              _Badge(asset: 'badge_canvas', label: 'Free Canvas: paint with your voice', size: badge, phase: 0,
+                  onTap: () => _open(const FreeCanvasView())),
+              gap,
+              _Badge(asset: 'badge_safari', label: 'Phonics Safari: colour pictures with sounds', size: badge, phase: 0.15,
+                  onTap: () => _open(const SafariMapView())),
+              gap,
+              _Badge(asset: 'badge_animals', label: 'Animal Sounds: wake the sleepy animals', size: badge, phase: 0.3,
+                  onTap: () => _open(const AnimalsView())),
+              gap,
+              _Badge(asset: 'badge_hill', label: "Pip's Ice Hill: sing high and low", size: badge, phase: 0.45,
+                  onTap: () => _open(const IceHillView())),
+            ]),
+            SizedBox(height: size.height * 0.03),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              _Badge(asset: 'badge_lanterns', label: "Ollie's Lanterns: quiet and loud", size: badge, phase: 0.6,
+                  onTap: () => _open(const LanternsView())),
+              gap,
+              _Badge(asset: 'badge_balloon', label: 'Breath Balloon: hold a long sound', size: badge, phase: 0.75,
+                  onTap: () => _open(const BalloonView())),
+              gap,
+              _Badge(asset: 'badge_gallery', label: 'My paintings', size: badge, phase: 0.9,
+                  onTap: () => _open(const GalleryView())),
+            ]),
           ]),
         ),
         Positioned(

@@ -90,6 +90,13 @@ class Profile {
     Map<String, int>? pictureDone,
     Map<String, int>? animalsWoken,
     this.animalSeconds = 0,
+    this.hillStars = 0,
+    this.hillLowHz = 0,
+    this.hillHighHz = 0,
+    this.lanternsQuiet = 0,
+    this.lanternsLoud = 0,
+    this.balloons = 0,
+    this.longestHold = 0,
   })  : vowels = vowels ?? {for (final v in Vowel.values) v: VowelStats()},
         sessions = sessions ?? [],
         pictureDone = pictureDone ?? {},
@@ -123,6 +130,21 @@ class Profile {
   /// Animal Sounds: seconds of voice while an animal was waking.
   double animalSeconds;
 
+  /// Pip's Ice Hill: stars caught, and the lowest and highest pitch sung
+  /// there (0 = not played yet).
+  int hillStars;
+  double hillLowHz;
+  double hillHighHz;
+
+  /// Ollie's Lanterns: lanterns lit with a quiet or a loud voice.
+  int lanternsQuiet;
+  int lanternsLoud;
+
+  /// Breath Balloon: balloons floated away, and the longest single held
+  /// sound in seconds.
+  int balloons;
+  double longestHold;
+
   /// Keep a year of daily play at most.
   static const maxSessions = 400;
 
@@ -152,6 +174,13 @@ class Profile {
         'pictureDone': pictureDone,
         'animalsWoken': animalsWoken,
         'animalSeconds': animalSeconds,
+        'hillStars': hillStars,
+        'hillLowHz': hillLowHz,
+        'hillHighHz': hillHighHz,
+        'lanternsQuiet': lanternsQuiet,
+        'lanternsLoud': lanternsLoud,
+        'balloons': balloons,
+        'longestHold': longestHold,
       };
 
   factory Profile.fromJson(Map<String, dynamic> j) {
@@ -176,6 +205,13 @@ class Profile {
       pictureDone: _pictureDone(j),
       animalsWoken: (j['animalsWoken'] as Map?)?.map((k, v) => MapEntry(k as String, (v as num).toInt())),
       animalSeconds: (j['animalSeconds'] as num?)?.toDouble() ?? 0,
+      hillStars: (j['hillStars'] as num?)?.toInt() ?? 0,
+      hillLowHz: (j['hillLowHz'] as num?)?.toDouble() ?? 0,
+      hillHighHz: (j['hillHighHz'] as num?)?.toDouble() ?? 0,
+      lanternsQuiet: (j['lanternsQuiet'] as num?)?.toInt() ?? 0,
+      lanternsLoud: (j['lanternsLoud'] as num?)?.toInt() ?? 0,
+      balloons: (j['balloons'] as num?)?.toInt() ?? 0,
+      longestHold: (j['longestHold'] as num?)?.toDouble() ?? 0,
     );
   }
 

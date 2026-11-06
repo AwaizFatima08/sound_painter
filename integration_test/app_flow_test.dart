@@ -181,6 +181,44 @@ void main() {
     await tapWhenReady(t, button('Home'));
     await wait(t, 2);
 
+    // 4c. Pip's Ice Hill: catch all six stars (stars drift to meet Pip).
+    debugPrint('STEP 4c');
+    script = SynthInput.demoScript();
+    await tapWhenReady(t, button("Pip's Ice Hill: sing high and low"));
+    await wait(t, 8);
+    await shot(t, '07e_hill');
+    await waitFor(t, button('Play again'), timeout: 180);
+    expect(store.active!.hillStars, 6);
+    expect(store.active!.hillHighHz, greaterThan(store.active!.hillLowHz));
+    debugPrint('hill: ${store.active!.hillLowHz.round()}-${store.active!.hillHighHz.round()} Hz');
+    await shot(t, '07f_hill_done');
+    await tapWhenReady(t, button('Home'));
+    await wait(t, 2);
+
+    // 4d. Ollie's Lanterns: light all eight.
+    debugPrint('STEP 4d');
+    await tapWhenReady(t, button("Ollie's Lanterns: quiet and loud"));
+    await wait(t, 8);
+    await shot(t, '07g_lanterns');
+    await waitFor(t, button('Play again'), timeout: 180);
+    expect(store.active!.lanternsQuiet + store.active!.lanternsLoud, 8);
+    debugPrint('lanterns: quiet ${store.active!.lanternsQuiet}, loud ${store.active!.lanternsLoud}');
+    await shot(t, '07h_lanterns_done');
+    await tapWhenReady(t, button('Home'));
+    await wait(t, 2);
+
+    // 4e. Breath Balloon: one balloon floats away.
+    debugPrint('STEP 4e');
+    script = SynthInput.vowelScript(Vowel.o);
+    await tapWhenReady(t, button('Breath Balloon: hold a long sound'));
+    await wait(t, 6);
+    await shot(t, '07i_balloon');
+    await waitFor(t, button('Another balloon'), timeout: 120);
+    expect(store.active!.balloons, 1);
+    debugPrint('balloon: longest hold ${store.active!.longestHold.toStringAsFixed(1)}s');
+    await tapWhenReady(t, button('Home'));
+    await wait(t, 2);
+
     // 5. Parent gate + Parent Zone.
     debugPrint('STEP 5');
     await tapWhenReady(t, button('Grown-ups'));
