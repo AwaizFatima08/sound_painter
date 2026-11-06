@@ -75,6 +75,7 @@ class _BalloonViewState extends ListeningState<BalloonView> {
     _floating = true;
     _rise = 0;
     profile.balloons++;
+    profile.markDone('balloon');
     services.store.save();
     services.sound.sfx(Sfx.whoosh);
     Future<void>.delayed(const Duration(milliseconds: 500), () {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme.dart';
 import '../../models/profile.dart';
+import '../../models/stickers.dart';
 import '../../services/services.dart';
 import '../../widgets/kid_widgets.dart';
 import '../../widgets/parent_gate.dart';
@@ -16,6 +17,7 @@ import '../gallery/gallery_view.dart';
 import '../hill/ice_hill_view.dart';
 import '../lanterns/lanterns_view.dart';
 import '../safari/safari_map_view.dart';
+import '../stickers/sticker_book_view.dart';
 import 'profile_picker_view.dart';
 
 /// The child's hub: big floating pictures, no words.
@@ -90,6 +92,15 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
     setState(() {});
   }
 
+  static Widget _page(Activity a) => switch (a) {
+        Activity.canvas => const FreeCanvasView(),
+        Activity.safari => const SafariMapView(),
+        Activity.animals => const AnimalsView(),
+        Activity.hill => const IceHillView(),
+        Activity.lanterns => const LanternsView(),
+        Activity.balloon => const BalloonView(),
+      };
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -127,8 +138,16 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
               gap,
               _Badge(asset: 'badge_gallery', label: 'My paintings', size: badge, phase: 0.9,
                   onTap: () => _open(const GalleryView())),
+              gap,
+              _StickerBadge(size: badge, onTap: () => _open(const StickerBookView())),
             ]),
           ]),
+        ),
+        Positioned(
+          top: 12,
+          left: 0,
+          right: 0,
+          child: Center(child: _TodayPath(profile: profile, onOpen: (a) => _open(_page(a)))),
         ),
         Positioned(
           top: 12,
@@ -177,6 +196,105 @@ class _Badge extends StatelessWidget {
         label: label,
         onTap: onTap,
         child: Image.asset('assets/images/$asset.webp', width: size, height: size),
+      ),
+    );
+  }
+}
+
+/// Three small pictures along the top: today's suggested activities, each
+/// ticked once finished today. A fixed, predictable routine for the day.
+class _TodayPath extends StatelessWidget {
+  const _TodayPath({required this.profile, required this.onOpen});
+
+  final Profile profile;
+  final void Function(Activity a) onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final path = TodayPath.forDay(DateTime.now());
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      for (var i = 0; i < path.length; i++) ...[
+        if (i > 0)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Row(children: [
+              for (var d = 0; d < 3; d++)
+                Container(
+                  width: 6,
+                  height: 6,
+                  margin: const EdgeInsets.symmetric(horizontal: 3),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: SP.cream.withValues(alpha: 0.6)),
+                ),
+            ]),
+          ),
+        () {
+          final a = path[i];
+          final done = profile.doneToday(a.name);
+          return BouncyButton(
+            label: "Today's path: ${a.title}${done ? ', done' : ''}",
+            onTap: () => onOpen(a),
+            child: SizedBox(
+              width: 68,
+              height: 68,
+              child: Stack(clipBehavior: Clip.none, children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: SP.cream,
+                    border: Border.all(color: done ? SP.amber : SP.lilac, width: 3),
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Image.asset('assets/images/${a.badge}.webp', fit: BoxFit.contain),
+                ),
+                if (done)
+                  const Positioned(
+                    right: -4,
+                    bottom: -4,
+                    child: Icon(Icons.check_circle_rounded, color: SP.teal, size: 30,
+                        shadows: [Shadow(color: Colors.black54, blurRadius: 6)]),
+                  ),
+              ]),
+            ),
+          );
+        }(),
+      ],
+    ]);
+  }
+}
+
+/// The sticker book's badge, drawn in code: a little book with a star.
+class _StickerBadge extends StatelessWidget {
+  const _StickerBadge({required this.size, required this.onTap});
+
+  final double size;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Bob(
+      phase: 0.95,
+      amount: 10,
+      child: BouncyButton(
+        label: 'My sticker book',
+        onTap: onTap,
+        child: SizedBox(
+          width: size,
+          height: size,
+          child: Center(
+            child: Container(
+              width: size * 0.72,
+              height: size * 0.86,
+              decoration: BoxDecoration(
+                color: SP.pink,
+                borderRadius: BorderRadius.circular(size * 0.08),
+                border: Border.all(color: SP.plum, width: 5),
+                boxShadow: [BoxShadow(color: SP.pink.withValues(alpha: 0.4), blurRadius: 18)],
+              ),
+              child: Icon(Icons.star_rounded, color: SP.amber, size: size * 0.5,
+                  shadows: const [Shadow(color: SP.plum, blurRadius: 2)]),
+            ),
+          ),
+        ),
       ),
     );
   }

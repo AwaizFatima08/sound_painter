@@ -150,6 +150,7 @@ class _SafariLevelViewState extends ListeningState<SafariLevelView> {
     _progress = 1;
     profile.vowels[v]!.pictures++;
     profile.pictureDone.update(widget.picture.id, (n) => n + 1, ifAbsent: () => 1);
+    profile.markDone('safari');
     services.store.save();
     services.sound.sfx(Sfx.tada);
     Future<void>.delayed(const Duration(milliseconds: 700), () {

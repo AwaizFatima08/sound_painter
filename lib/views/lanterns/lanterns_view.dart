@@ -87,6 +87,7 @@ class _LanternsViewState extends ListeningState<LanternsView> {
     services.sound.sfx(Sfx.chime, volume: big ? 0.8 : 0.45);
     if (_lit.length == count) {
       _done = true;
+      profile.markDone('lanterns');
       services.store.save();
       Future<void>.delayed(const Duration(milliseconds: 600), () {
         if (mounted) services.sound.say('lantern_all');

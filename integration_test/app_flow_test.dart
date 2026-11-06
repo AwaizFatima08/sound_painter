@@ -219,6 +219,17 @@ void main() {
     await tapWhenReady(t, button('Home'));
     await wait(t, 2);
 
+    // 4f. Today's path ticks the canvas; the sticker book shows earned stickers.
+    debugPrint('STEP 4f');
+    expect(button("Today's path: Free Canvas, done"), findsOneWidget);
+    await tapWhenReady(t, button('My sticker book'));
+    await waitFor(t, find.bySemanticsLabel('Sticker: the cow'), timeout: 30);
+    expect(find.bySemanticsLabel('Sticker: apple'), findsOneWidget);
+    expect(find.bySemanticsLabel('Sticker: the balloon'), findsOneWidget);
+    await shot(t, '07j_stickers');
+    await tapWhenReady(t, button('Home'));
+    await wait(t, 2);
+
     // 5. Parent gate + Parent Zone.
     debugPrint('STEP 5');
     await tapWhenReady(t, button('Grown-ups'));
@@ -230,6 +241,11 @@ void main() {
     await waitFor(t, find.text('Test: progress'), timeout: 30);
     expect(find.text('Grown-ups'), findsOneWidget);
     await shot(t, '08_parent_zone');
+    await t.scrollUntilVisible(find.text('By chapter'), 300, scrollable: find.byType(Scrollable).first);
+    expect(find.textContaining('animals woken'), findsOneWidget);
+    expect(find.textContaining('stars caught'), findsOneWidget);
+    expect(find.textContaining('1 balloon floated'), findsOneWidget);
+    await shot(t, '08b_by_chapter');
 
     await t.fling(find.byType(CustomScrollView), const Offset(0, -2500), 3000);
     await wait(t, 2);

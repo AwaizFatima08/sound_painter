@@ -102,6 +102,7 @@ class _IceHillViewState extends ListeningState<IceHillView> {
     services.sound.sfx(Sfx.chime);
     if (_caught == _stars.length) {
       _done = true;
+      profile.markDone('hill');
       services.store.save();
       services.sound.sfx(Sfx.tada);
       Future<void>.delayed(const Duration(milliseconds: 600), () {

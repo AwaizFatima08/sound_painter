@@ -7,6 +7,9 @@ import '../../core/audio/audio_input.dart';
 import '../../core/audio/dsp.dart';
 import '../../core/theme.dart';
 import '../../models/profile.dart';
+import '../../models/animals.dart';
+import '../../models/phonics.dart';
+import '../../models/stickers.dart';
 import '../../services/services.dart';
 import '../../widgets/kid_widgets.dart';
 import '../../widgets/parent_widgets.dart';
@@ -131,6 +134,10 @@ class _ParentZoneViewState extends State<ParentZoneView> with WidgetsBindingObse
           _Stat(label: 'Paintings made', value: '${_p.paintings}'),
         ]),
         const SizedBox(height: 20),
+        const Text('By chapter', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+        const SizedBox(height: 6),
+        ..._chapters(),
+        const SizedBox(height: 20),
         const Text('Vowel sounds practised', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
         const SizedBox(height: 4),
         const Text('Seconds of voice on each picture; the brighter part sounded like the target vowel. '
@@ -174,6 +181,58 @@ class _ParentZoneViewState extends State<ParentZoneView> with WidgetsBindingObse
       ]),
     );
   }
+
+  /// One line per chapter, in plain words. "Not played yet" rather than
+  /// zeros, so nothing reads as a failure.
+  List<Widget> _chapters() {
+    final pics = Phonics.pictures.where((x) => AssetCatalog.has(x.image)).toList();
+    final picsDone = pics.where((x) => (_p.pictureDone[x.id] ?? 0) > 0).length;
+    final animalsDone = Animals.all.where((a) => (_p.animalsWoken[a.id] ?? 0) > 0).length;
+    final stickers = Stickers.all();
+    const notYet = 'Not played yet';
+    return [
+      _ChapterRow(
+        badge: 'badge_safari',
+        title: 'Phonics Safari',
+        detail: picsDone == 0 ? notYet : '$picsDone of ${pics.length} pictures coloured',
+      ),
+      _ChapterRow(
+        badge: 'badge_animals',
+        title: 'Animal Sounds',
+        detail: animalsDone == 0
+            ? notYet
+            : '$animalsDone of ${Animals.all.length} animals woken · ${_p.animalSeconds.round()} s of voice',
+      ),
+      _ChapterRow(
+        badge: 'badge_hill',
+        title: "Pip's Ice Hill",
+        detail: _p.hillHighHz == 0
+            ? notYet
+            : '${_n(_p.hillStars, 'star')} caught · sang from ${_p.hillLowHz.round()} to ${_p.hillHighHz.round()} Hz',
+      ),
+      _ChapterRow(
+        badge: 'badge_lanterns',
+        title: "Ollie's Lanterns",
+        detail: _p.lanternsQuiet + _p.lanternsLoud == 0
+            ? notYet
+            : '${_p.lanternsQuiet} lit with a quiet voice · ${_p.lanternsLoud} with a big voice',
+      ),
+      _ChapterRow(
+        badge: 'badge_balloon',
+        title: 'Breath Balloon',
+        detail: _p.balloons == 0 && _p.longestHold == 0
+            ? notYet
+            : '${_n(_p.balloons, 'balloon')} floated · longest held sound ${_p.longestHold.toStringAsFixed(1)} s',
+      ),
+      _ChapterRow(
+        badge: 'badge_gallery',
+        title: 'Sticker book',
+        detail: '${stickers.where((x) => x.earned(_p)).length} of ${stickers.length} stickers',
+      ),
+    ];
+  }
+
+  static String _n(int n, String one) => '$n ${n == 1 ? one : '${one}s'}';
 
   double _maxVowelSeconds() =>
       math.max(30, _p.vowels.values.map((v) => v.practiceSeconds).fold<double>(0, math.max));
@@ -420,6 +479,30 @@ class _ParentZoneViewState extends State<ParentZoneView> with WidgetsBindingObse
             child: const Text('Licences'),
           ),
         ]),
+      ]),
+    );
+  }
+}
+
+class _ChapterRow extends StatelessWidget {
+  const _ChapterRow({required this.badge, required this.title, required this.detail});
+  final String badge;
+  final String title;
+  final String detail;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Row(children: [
+        Image.asset('assets/images/$badge.webp', width: 40, height: 40),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+            Text(detail, style: const TextStyle(fontSize: 14, color: SP.muted)),
+          ]),
+        ),
       ]),
     );
   }

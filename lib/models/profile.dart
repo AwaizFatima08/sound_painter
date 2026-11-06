@@ -97,10 +97,13 @@ class Profile {
     this.lanternsLoud = 0,
     this.balloons = 0,
     this.longestHold = 0,
+    this.todayDate = '',
+    Set<String>? todayDone,
   })  : vowels = vowels ?? {for (final v in Vowel.values) v: VowelStats()},
         sessions = sessions ?? [],
         pictureDone = pictureDone ?? {},
-        animalsWoken = animalsWoken ?? {};
+        animalsWoken = animalsWoken ?? {},
+        todayDone = todayDone ?? {};
 
   final String id;
   Avatar avatar;
@@ -145,6 +148,27 @@ class Profile {
   int balloons;
   double longestHold;
 
+  /// Activities finished on [todayDate] (yyyy-mm-dd), for today's path on
+  /// Home. A new day simply starts empty: nothing is lost by missing one.
+  String todayDate;
+  final Set<String> todayDone;
+
+  static String dayKey(DateTime d) =>
+      '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
+  /// Whether activity [id] was finished today.
+  bool doneToday(String id, [DateTime? now]) => todayDate == dayKey(now ?? DateTime.now()) && todayDone.contains(id);
+
+  /// Records that activity [id] was finished today.
+  void markDone(String id, [DateTime? now]) {
+    final key = dayKey(now ?? DateTime.now());
+    if (todayDate != key) {
+      todayDate = key;
+      todayDone.clear();
+    }
+    todayDone.add(id);
+  }
+
   /// Keep a year of daily play at most.
   static const maxSessions = 400;
 
@@ -181,6 +205,8 @@ class Profile {
         'lanternsLoud': lanternsLoud,
         'balloons': balloons,
         'longestHold': longestHold,
+        'todayDate': todayDate,
+        'todayDone': todayDone.toList(),
       };
 
   factory Profile.fromJson(Map<String, dynamic> j) {
@@ -212,6 +238,8 @@ class Profile {
       lanternsLoud: (j['lanternsLoud'] as num?)?.toInt() ?? 0,
       balloons: (j['balloons'] as num?)?.toInt() ?? 0,
       longestHold: (j['longestHold'] as num?)?.toDouble() ?? 0,
+      todayDate: j['todayDate'] as String? ?? '',
+      todayDone: {...((j['todayDone'] as List?) ?? const []).cast<String>()},
     );
   }
 

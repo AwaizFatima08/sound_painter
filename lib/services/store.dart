@@ -147,6 +147,7 @@ class Store extends ChangeNotifier {
     final f = File('${d.path}/${DateTime.now().millisecondsSinceEpoch}.png');
     await f.writeAsBytes(png, flush: true);
     p.paintings++;
+    p.markDone('canvas');
     final all = await paintings(p);
     for (final old in all.skip(maxPaintings)) {
       await old.delete();

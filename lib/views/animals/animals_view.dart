@@ -119,6 +119,7 @@ class _AnimalsViewState extends ListeningState<AnimalsView> {
     _since = 0;
     _awake.add(a.id);
     profile.animalsWoken.update(a.id, (n) => n + 1, ifAbsent: () => 1);
+    profile.markDone('animals');
     services.store.save();
     services.sound.sfx(Sfx.tada);
     final line = _wokeLine.isEven ? 'animals_woke1' : 'animals_woke2';
