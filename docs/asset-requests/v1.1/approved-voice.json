@@ -52,5 +52,15 @@
   "20261106-0230-sound-painter-voice-04": "animals_woke1",
   "20261106-0231-sound-painter-voice-01": "animals_woke2",
   "20261106-0231-sound-painter-voice-02": "animals_all",
-  "20261106-0251-sound-painter-voice-01": "animal_snake"
+  "20261106-0251-sound-painter-voice-01": "animal_snake",
+  "20261106-1259-sound-painter-voice-01": "hill_intro",
+  "20261106-1259-sound-painter-voice-02": "hill_star",
+  "20261106-1259-sound-painter-voice-03": "hill_all",
+  "20261106-1259-sound-painter-voice-04": "lantern_intro",
+  "20261106-1300-sound-painter-voice-01": "lantern_quiet",
+  "20261106-1300-sound-painter-voice-02": "lantern_loud",
+  "20261106-1300-sound-painter-voice-03": "lantern_all",
+  "20261106-1301-sound-painter-voice-01": "balloon_intro",
+  "20261106-1301-sound-painter-voice-02": "balloon_float",
+  "20261106-1301-sound-painter-voice-03": "balloon_again"
 }
