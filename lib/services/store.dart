@@ -124,6 +124,8 @@ class Store extends ChangeNotifier {
     }
     p.sessions.clear();
     p.pictureDone.clear();
+    p.animalsWoken.clear();
+    p.animalSeconds = 0;
     await save();
   }
 

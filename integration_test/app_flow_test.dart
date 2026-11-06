@@ -126,7 +126,7 @@ void main() {
     await shot(t, '03_free_canvas');
     await tapWhenReady(t, button('Home'));
     await wait(t, 3);
-    await waitFor(t, button('Phonics Safari: colour pictures with sounds'), timeout: 30);
+    await waitFor(t, button('Phonics Safari: colour pictures with sounds'), timeout: 120); // saving a big painting is slow on the emulator
     expect(await store.paintings(store.active!), isNotEmpty, reason: 'painting auto-saved');
 
     // 3. Phonics Safari: hold "aaa" for the apple until it's coloured in.
@@ -161,6 +161,23 @@ void main() {
     await tapWhenReady(t, button('My paintings'));
     await waitFor(t, button('Painting 1'), timeout: 30);
     await shot(t, '07_gallery');
+    await tapWhenReady(t, button('Home'));
+    await wait(t, 2);
+
+    // 4b. Animal Sounds: wake the cow.
+    debugPrint('STEP 4b');
+    await tapWhenReady(t, button('Animal Sounds: wake the sleepy animals'));
+    await wait(t, 4);
+    await shot(t, '07b_animals_farm');
+    script = SynthInput.vowelScript(Vowel.u);
+    await tapWhenReady(t, button('The sleeping cow'));
+    await wait(t, 6);
+    await shot(t, '07c_animals_waking');
+    final awake = button('The cow is awake');
+    await waitFor(t, awake, timeout: 120); // woken, then back on the farm
+    expect(store.active!.animalsWoken['cow'], 1);
+    debugPrint('animals: voice=${store.active!.animalSeconds.toStringAsFixed(1)}s');
+    await shot(t, '07d_animals_cow_awake');
     await tapWhenReady(t, button('Home'));
     await wait(t, 2);
 

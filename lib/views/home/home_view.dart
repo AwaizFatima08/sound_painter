@@ -8,13 +8,14 @@ import '../../services/services.dart';
 import '../../widgets/kid_widgets.dart';
 import '../../widgets/parent_gate.dart';
 import '../../widgets/rest_overlay.dart';
+import '../animals/animals_view.dart';
 import '../canvas/free_canvas_view.dart';
 import '../dashboard/parent_zone_view.dart';
 import '../gallery/gallery_view.dart';
 import '../safari/safari_map_view.dart';
 import 'profile_picker_view.dart';
 
-/// The child's hub: three big floating pictures, no words.
+/// The child's hub: big floating pictures, no words.
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -91,7 +92,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
     final size = MediaQuery.sizeOf(context);
     final profile = s.store.active;
     if (profile == null) return const SizedBox();
-    final badge = math.min(size.height * 0.42, size.width * 0.24);
+    final badge = math.min(size.height * 0.42, size.width * 0.2);
 
     return Scene(
       background: 'bg_home',
@@ -105,7 +106,10 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
             _Badge(asset: 'badge_safari', label: 'Phonics Safari: colour pictures with sounds', size: badge, phase: 0.33,
                 onTap: () => _open(const SafariMapView())),
             SizedBox(width: size.width * 0.03),
-            _Badge(asset: 'badge_gallery', label: 'My paintings', size: badge, phase: 0.66,
+            _Badge(asset: 'badge_animals', label: 'Animal Sounds: wake the sleepy animals', size: badge, phase: 0.5,
+                onTap: () => _open(const AnimalsView())),
+            SizedBox(width: size.width * 0.03),
+            _Badge(asset: 'badge_gallery', label: 'My paintings', size: badge, phase: 0.75,
                 onTap: () => _open(const GalleryView())),
           ]),
         ),

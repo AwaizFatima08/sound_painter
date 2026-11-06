@@ -88,9 +88,12 @@ class Profile {
     List<SessionRecord>? sessions,
     this.paintings = 0,
     Map<String, int>? pictureDone,
+    Map<String, int>? animalsWoken,
+    this.animalSeconds = 0,
   })  : vowels = vowels ?? {for (final v in Vowel.values) v: VowelStats()},
         sessions = sessions ?? [],
-        pictureDone = pictureDone ?? {};
+        pictureDone = pictureDone ?? {},
+        animalsWoken = animalsWoken ?? {};
 
   final String id;
   Avatar avatar;
@@ -113,6 +116,12 @@ class Profile {
 
   /// Phonics Safari: times each picture (by word, e.g. "ant") was coloured in.
   final Map<String, int> pictureDone;
+
+  /// Animal Sounds: times each animal (by id, e.g. "cow") was woken up.
+  final Map<String, int> animalsWoken;
+
+  /// Animal Sounds: seconds of voice while an animal was waking.
+  double animalSeconds;
 
   /// Keep a year of daily play at most.
   static const maxSessions = 400;
@@ -141,6 +150,8 @@ class Profile {
         'sessions': [for (final s in sessions) s.toJson()],
         'paintings': paintings,
         'pictureDone': pictureDone,
+        'animalsWoken': animalsWoken,
+        'animalSeconds': animalSeconds,
       };
 
   factory Profile.fromJson(Map<String, dynamic> j) {
@@ -163,6 +174,8 @@ class Profile {
       ],
       paintings: (j['paintings'] as num?)?.toInt() ?? 0,
       pictureDone: _pictureDone(j),
+      animalsWoken: (j['animalsWoken'] as Map?)?.map((k, v) => MapEntry(k as String, (v as num).toInt())),
+      animalSeconds: (j['animalSeconds'] as num?)?.toDouble() ?? 0,
     );
   }
 
