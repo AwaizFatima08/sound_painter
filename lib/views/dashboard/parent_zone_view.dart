@@ -17,7 +17,7 @@ import '../onboarding/parent_setup_view.dart';
 import '../onboarding/warmup_view.dart';
 import 'sound_check_view.dart';
 
-const appVersion = '1.0.0';
+const appVersion = '1.1.0';
 
 /// Grown-ups only (behind the parent gate): progress, per-child settings,
 /// device settings and privacy information.
