@@ -14,3 +14,6 @@ New, friendlier voices for Pip, Aria and Ollie.
 
 ## What changed for privacy / Data safety
 Nothing: still no account, no data collected or shared, voice never recorded or stored; progress stays on the device.
+
+## Play submission
+Sent for review 2026-11-07: production release "2 (1.1.0)", full roll-out, with the new short and full description and the AI asset labels (managed publishing off, so it goes live on approval). Play warned that the bundle noticeably increases download size (the homidev PNG originals).

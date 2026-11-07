@@ -22,29 +22,38 @@ Use **Play App Signing** (the default): Google keeps the app-signing key, and th
 **App name** (30 max): `Sound Painter: Color My Voice` (29)
 
 **Short description** (80 max):
-`Paint with your voice! A gentle voice and phonics game for children aged 3–6.` (77)
+`Paint and play with your voice! Gentle voice and phonics games for ages 3–6.` (76, since 1.1.0)
 
-**Full description**:
+**Full description** (updated for 1.1.0):
 
 ```
-Sound Painter turns a child's voice into colour. Sing, hum or say "aaah" and watch glowing paint flow across the screen: loud sounds make big brush strokes, high sounds paint warm reds and low sounds cool purples.
+Sound Painter turns a child's voice into colour and play. Sing, hum or say "aaah" and watch glowing paint flow across the screen: loud sounds make big brush strokes, high sounds paint warm reds and low sounds cool purples.
 
 Made for children aged 3 to 6, including children who learn at their own pace.
 
+Seven voice games
 • FREE CANVAS: Pip the penguin and Ollie the owl react to your child's voice while they paint. Little fingers can paint too.
-• PHONICS SAFARI: Aria the turtle models a vowel sound (a, e, i, o, u). Hold the sound and the apple, egg, igloo, octopus or umbrella colours itself in.
+• PHONICS SAFARI: Aria the turtle models a vowel sound on five vowel islands. Hold the sound and one of 15 pictures colours itself in.
+• ANIMAL SOUNDS: copy moo, baa, quack, hiss and roar to wake seven sleepy farm animals.
+• PIP'S ICE HILL: sing high and low to help Pip glide up and down and catch the stars.
+• OLLIE'S LANTERNS: light lanterns with quiet voices and big voices.
+• BREATH BALLOON: hold one long sound to blow up a balloon until it floats away.
 • MY PAINTINGS: every picture is saved to your child's own gallery automatically.
 
+Every day
+• A sticker book to fill, with a sticker for each picture, animal and game.
+• Today's path: three short activities, the same all day, so the routine is easy to follow.
+
 Gentle by design
-• No failing, no timers, no scores. Every sound makes art.
-• Pip's one-minute warm-up learns each child's own voice range, so even a narrow range paints the whole rainbow.
+• No failing, no timers, no scores. Every sound makes progress.
+• Pip's one-minute warm-up learns each child's own voice range, so even a narrow range reaches every colour and every star.
 • Explore and Practise levels, chosen by you, not by age.
 • Calm mode: fewer sparkles and softer motion for children who are easily overwhelmed.
-• Friendly spoken prompts, with no reading needed.
+• Friendly spoken prompts from Pip, Aria and Ollie, with no reading needed.
 • Optional session time limit that ends with a gentle goodbye.
 
 For grown-ups
-• A simple dashboard: minutes played, voice time, vowel sounds practised and voice range over time.
+• A simple dashboard with progress for every chapter: minutes played, voice time, vowel sounds, animals woken, stars, lanterns, balloons and voice range over time.
 • Several children on one device, each with their own animal friend.
 • A microphone sound check for your device.
 
@@ -54,6 +63,8 @@ Private and free
 
 Sound Painter is an educational game. It is not a therapy or medical tool.
 ```
+
+**AI asset declaration** (since 1.1.0): labelled as created or edited using AI: icon, feature graphic and all screenshots (the art comes from Gemini).
 
 **App category**: Education
 **Tags** (pick from Play's list): Educational · Kids · Music (or Art & Design)
